@@ -156,7 +156,12 @@ class Fragment extends AbstractPart
     protected function doInitialize()
     {
         if ($this->fragment) {
-            $this->data = array_merge($this->data, parse_url($this->fragment));
+            $data = parse_url($this->fragment);
+            if (false === $data) {
+                $data = array('path' => $this->fragment);
+            }
+
+            $this->data = array_merge($this->data, $data);
         }
 
         foreach ($this->data as $key => $value) {
